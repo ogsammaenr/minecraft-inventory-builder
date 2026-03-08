@@ -304,86 +304,147 @@ textarea {
 ::-webkit-scrollbar-track { background: var(--bg-input); border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #475569; }
+/* === GERÇEK MİNECRAFT FONTU === */
+@font-face {
+    font-family: 'MinecraftRegular';
+    src: url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/public/MinecraftRegular-Bmg3.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/public/MinecraftRegular-Bmg3.woff') format('woff');
+    font-weight: bold;
+    font-style: bold;
+}
 
-/* === MINECRAFT GAME-ACCURATE TOOLTIP & COLORS === */
-
-/* Ana Tooltip Konteyneri */
+/* === MINECRAFT GAME-ACCURATE TOOLTIP === */
 .mc-tooltip {
-    position: fixed; /* Mouse'u takip etmesi için fixed */
+    position: fixed;
     z-index: 9999;
-    pointer-events: none; /* Mouse'un altında kalıp tıklamayı engellememeli */
-    padding: 8px 12px;
-    
-    /* Minecraft Tooltip Arka Planı (Yarı Saydam Siyah) */
-    background-color: rgba(16, 0, 16, 0.92);
-    
-    /* Minecraft Tooltip Mor/Siyah Çerçevesi */
-    border: 2px solid;
-    border-image-source: linear-gradient(to bottom, #2d0a63, #180533);
+    pointer-events: none;
+    padding: 10px;
+    background-color: rgba(16, 0, 16, 0.94);
+    border: 3px solid;
+    border-image-source: linear-gradient(to bottom, #3f1485, #21084f);
     border-image-slice: 1;
-    
-    /* Pikselli font */
-    font-family: 'MinecraftTen', 'Courier New', Monospace;
+    font-family: 'MinecraftRegular', 'Courier New', monospace;
     font-size: 16px;
-    line-height: 1.4;
-    
-    /* Gölge efekti (Oyun içi gibi hafif drop shadow) */
+    line-height: 1.2;
     box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
     image-rendering: pixelated;
+    
+    /* 1. YAZI NETLEŞTİRİCİ (Bulanıklığı ve soluklaşmayı önler) */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: never;
+
+    /* 2. KESKİN KONTRAST GÖLGESİ (Gri yerine tam siyah gölge) */
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.75), 2px 2px 0px rgba(0, 0, 0, 0.5);
 }
 
-/* Eşya İsmi (Tooltip'in ilk satırı) */
+/* === EŞYA İSMİ (GÖLGESİZ SAF BEYAZ) === */
 .mc-tooltip-name {
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     display: block;
     white-space: nowrap;
+    color: #FFFFFF !important; /* Tam Beyaz */
+    text-shadow: none !important; /* GÖLGE İPTAL */
+    font-weight: bold; /* Beyazın daha net çıkması için kalınlaştırdık */
+    opacity: 0.9;
 }
 
-/* Eşya Lore'u (Diğer satırlar) */
+/* === LORE (GÖLGESİZ SAF MOR) === */
 .mc-tooltip-lore {
     display: block;
-    color: #AAAAAA; /* Varsayılan Lore Rengi (Gri) */
+    color: #AA00AA !important; 
+    font-style: italic; 
+    text-shadow: none !important; /* GÖLGE İPTAL */
 }
 
-/* Lore satırları arası boşluk */
 .mc-tooltip-lore span {
     display: block;
+    margin-bottom: 2px;
 }
 
-/* === MINECRAFT RENK KODLARI CSS KARŞILIKLARI === */
-.mc-font { font-family: 'MinecraftTen', 'Courier New', Monospace; }
-
-/* Renkler (Standard) */
-.mcc-0 { color: #000000; } /* Siyah */
-.mcc-1 { color: #0000AA; } /* Koyu Mavi */
-.mcc-2 { color: #00AA00; } /* Koyu Yeşil */
-.mcc-3 { color: #00AAAA; } /* Koyu Turkuaz */
-.mcc-4 { color: #AA0000; } /* Koyu Kırmızı */
-.mcc-5 { color: #AA00AA; } /* Koyu Mor */
-.mcc-6 { color: #FFAA00; } /* Altın */
-.mcc-7 { color: #AAAAAA; } /* Gri */
-.mcc-8 { color: #555555; } /* Koyu Gri */
-.mcc-9 { color: #5555FF; } /* Mavi */
-.mcc-a { color: #55FF55; } /* Yeşil */
-.mcc-b { color: #55FFFF; } /* Turkuaz */
-.mcc-c { color: #FF5555; } /* Kırmızı */
-.mcc-d { color: #FF55FF; } /* Pembe */
-.mcc-e { color: #FFFF55; } /* Sarı */
-.mcc-f { color: #FFFFFF; } /* Beyaz */
+/* === MINECRAFT RENK PALETİ (SAF RENKLER - GÖLGE YOK) === */
+.mcc-0 { color: #000000 !important; text-shadow: none !important; } 
+.mcc-1 { color: #0000AA !important; text-shadow: none !important; } 
+.mcc-2 { color: #00AA00 !important; text-shadow: none !important; } 
+.mcc-3 { color: #00AAAA !important; text-shadow: none !important; } 
+.mcc-4 { color: #AA0000 !important; text-shadow: none !important; } 
+.mcc-5 { color: #AA00AA !important; text-shadow: none !important; } 
+.mcc-6 { color: #FFAA00 !important; text-shadow: none !important; } 
+.mcc-7 { color: #AAAAAA !important; text-shadow: none !important; } 
+.mcc-8 { color: #555555 !important; text-shadow: none !important; } 
+.mcc-9 { color: #5555FF !important; text-shadow: none !important; } 
+.mcc-a { color: #55FF55 !important; text-shadow: none !important; } 
+.mcc-b { color: #55FFFF !important; text-shadow: none !important; } 
+.mcc-c { color: #FF5555 !important; text-shadow: none !important; } 
+.mcc-d { color: #FF55FF !important; text-shadow: none !important; } 
+.mcc-e { color: #FFFF55 !important; text-shadow: none !important; } 
+.mcc-f { color: #FFFFFF !important; text-shadow: none !important; } 
 
 /* Formatlar */
-.mcc-l { font-weight: bold; }      /* Kalın */
-.mcc-o { font-style: italic; }     /* İtalik */
-.mcc-n { text-decoration: underline; } /* Altı Çizili */
-.mcc-m { text-decoration: line-through; } /* Üstü Çizili */
-/* Note: mcc-k (Sihirli/Obfuscated) için JS+CSS animasyonu gerekir, 
-   bu basit yapıda onu pas geçiyoruz veya sadece kalın yapıyoruz. */
+.mcc-l { font-weight: bold; } 
+.mcc-o { font-style: italic; } 
+.mcc-n { text-decoration: underline; } 
+.mcc-m { text-decoration: line-through; } 
 .mcc-k { font-weight: bold; opacity: 0.8; } 
 
-/* Reset (r) */
 .mcc-r { 
     color: inherit; 
     font-weight: normal; 
     font-style: normal; 
     text-decoration: none; 
 }
+
+/* === EŞYA SEÇİCİ (MODAL) TASARIMI === */
+.input-with-button { display: flex; gap: 8px; }
+.input-with-button input { flex: 1; }
+.btn-icon { 
+    background: var(--bg-input); border: 1px solid var(--border-color); 
+    color: var(--text-main); border-radius: var(--radius-md); 
+    padding: 0 14px; cursor: pointer; transition: 0.2s; font-size: 16px;
+}
+.btn-icon:hover { border-color: var(--border-focus); background: rgba(85, 255, 85, 0.1); }
+
+.modal-overlay { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; 
+    z-index: 10000; backdrop-filter: blur(4px);
+}
+.modal-content { 
+    background: var(--bg-panel); border: 1px solid var(--border-color); 
+    border-radius: var(--radius-lg); width: 90%; max-width: 800px; height: 85vh; 
+    display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; 
+}
+.modal-header { 
+    padding: 16px 24px; border-bottom: 1px solid var(--border-color); 
+    display: flex; justify-content: space-between; align-items: center; background: #15181e;
+}
+.modal-header h3 { font-size: 18px; margin: 0; font-weight: 600; }
+.btn-close { 
+    background: none; border: none; color: var(--text-muted); 
+    font-size: 28px; cursor: pointer; transition: 0.2s; line-height: 1;
+}
+.btn-close:hover { color: #ff5555; transform: scale(1.1); }
+.modal-search { padding: 16px 24px; border-bottom: 1px solid var(--border-color); }
+.modal-grid { 
+    padding: 20px 24px; overflow-y: auto; display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); 
+    gap: 12px; flex: 1; align-content: start; 
+}
+
+/* Modal İçindeki İkonlar */
+.modal-item { 
+    background: var(--bg-slot); border: 1px solid var(--border-color); 
+    border-radius: var(--radius-md); padding: 10px 8px; cursor: pointer; 
+    display: flex; flex-direction: column; align-items: center; gap: 8px; 
+    transition: 0.15s; height: 90px; justify-content: flex-start;
+}
+.modal-item:hover { 
+    border-color: var(--border-focus); transform: translateY(-3px); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); background: var(--bg-slot-hover);
+}
+.modal-item img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
+.modal-item span { 
+    font-size: 11px; color: var(--text-muted); text-align: center; 
+    width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: monospace;
+}
+.modal-item.hidden { display: none; }

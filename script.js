@@ -27,6 +27,15 @@ class GUIBuilder {
 
         this.colorParser = new ColorCodeParser();
 
+        // Modal Elementleri
+        this.btnBrowse = document.getElementById('btn-browse-items');
+        this.modalEl = document.getElementById('item-picker-modal');
+        this.btnCloseModal = document.getElementById('close-modal');
+        this.searchInput = document.getElementById('item-search');
+        this.modalGrid = document.getElementById('modal-item-grid');
+        this.allItems = MINECRAFT_ITEMS; // JSON'dan çekeceğimiz liste
+        this.allItems.sort();
+
         this.init();
     }
 
@@ -56,6 +65,16 @@ class GUIBuilder {
             this.inputs[key].addEventListener('input', (e) => this.handleInputChange(key, e.target.value));
         });
         document.getElementById('btn-generate').addEventListener('click', () => this.generateJSON());
+
+        // MODAL EVENTLERİ
+        this.btnBrowse.addEventListener('click', () => this.openModal());
+        this.btnCloseModal.addEventListener('click', () => this.closeModal());
+        // Modal dışına tıklanırsa kapat
+        this.modalEl.addEventListener('click', (e) => {
+            if(e.target === this.modalEl) this.closeModal();
+        });
+        // Arama kutusu dinleyicisi (Anlık arama)
+        this.searchInput.addEventListener('input', (e) => this.filterModalItems(e.target.value));
     }
 
     // === TOOLTIP MANTIĞI ===
@@ -231,6 +250,73 @@ class GUIBuilder {
             btn.style.color = "#000";
         }, 1500);
     }
+
+    // === MODAL YÖNETİMİ ===
+    openModal() {
+        if (this.selectedSlotIndex === null) {
+            alert("Lütfen önce sol taraftan eşya koymak istediğiniz slotu seçin!");
+            return;
+        }
+
+        // Eğer daha önce elementler oluşturulmadıysa, bir kere oluştur.
+        if (this.modalGrid.children.length === 0) {
+            this.renderModalItems();
+        }
+        
+        this.modalEl.style.display = 'flex';
+        this.searchInput.value = ''; // Aramayı sıfırla
+        this.filterModalItems('');   // Tümünü göster
+        this.searchInput.focus();    // Direkt yazmaya hazır hale getir
+    }
+
+    closeModal() {
+        this.modalEl.style.display = 'none';
+    }
+
+    renderModalItems() {
+        this.modalGrid.innerHTML = ''; // Temizle
+        
+        // 1400+ objeyi döngüye sokup ekranda HTML olarak yarat
+        this.allItems.forEach(itemId => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'modal-item';
+            itemDiv.dataset.id = itemId; // Arama filtresi için id sakla
+            
+            // Tıklayınca ne olacak?
+            itemDiv.addEventListener('click', () => {
+                // Input değerini güncelle
+                this.inputs.id.value = itemId;
+                // Değişiklik fonksiyonumuzu tetikle (Görsel slotta hemen güncellenir)
+                this.handleInputChange('id', itemId);
+                // Modalı kapat
+                this.closeModal();
+            });
+
+            itemDiv.innerHTML = `
+                <img src="${this.ICONS_PATH}${itemId}.png" alt="${itemId}" loading="lazy">
+                <span title="${itemId}">${itemId}</span>
+            `;
+            
+            this.modalGrid.appendChild(itemDiv);
+        });
+    }
+
+    filterModalItems(query) {
+        const lowerQuery = query.toLowerCase().trim();
+        const items = this.modalGrid.children;
+        
+        // Ekranda sadece aranan kelimeyi içerenleri bırak
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const id = item.dataset.id;
+            
+            if (id.includes(lowerQuery)) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        }
+    }
 }
 
 // === MINECRAFT RENK KODU DÖNÜŞTÜRÜCÜ ===
@@ -284,6 +370,8 @@ class ColorCodeParser {
     isColor(code) {
         return /[0-9a-f]/.test(code);
     }
+
+    
 }
 
 document.addEventListener('DOMContentLoaded', () => new GUIBuilder());
