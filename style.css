@@ -1,0 +1,389 @@
+/* === MODERN UI DEĞİŞKENLERİ === */
+:root {
+    --bg-body: #0f1115;
+    --bg-panel: #1a1d24;
+    --bg-input: #0b0c0f;
+    --bg-slot: #22262f;
+    --bg-slot-hover: #2c313c;
+    
+    --border-color: #2e3340;
+    --border-focus: #55FF55; /* Minecraft Elmas Yeşili/Mavisi Vurgusu */
+    
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    
+    --radius-lg: 16px;
+    --radius-md: 8px;
+    --radius-sm: 4px;
+    
+    --shadow-panel: 0 10px 30px rgba(0,0,0,0.5);
+    --shadow-slot: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* UI genelinde temiz, modern bir font kullanıyoruz */
+body {
+    background-color: var(--bg-body); 
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    min-height: 100vh; 
+    padding: 20px;
+    /* Hafif arkadan vuran neon aydınlatma efekti */
+    background-image: radial-gradient(circle at 50% 0%, #1a2333 0%, var(--bg-body) 60%);
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.app-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.app-header h1 span {
+    color: var(--border-focus);
+    font-size: 14px;
+    background: rgba(85, 255, 85, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    vertical-align: middle;
+}
+
+.app-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.app-container { 
+    display: flex; 
+    gap: 20px; 
+    align-items: stretch;
+}
+
+/* === PANEL TASARIMI === */
+.panel {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-panel);
+    display: flex;
+    flex-direction: column;
+}
+
+.left-panel { flex: 1; gap: 20px; }
+.right-panel { width: 380px; gap: 20px; }
+
+.panel-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+/* === SOL PANEL (ENVANTER) === */
+.panel-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.panel-top label {
+    margin-bottom: 8px;
+    display: block;
+    color: var(--text-main);
+}
+
+.inventory-wrapper {
+    background-color: #C6C6C6; 
+    padding: 16px; /* İç boşluğu biraz artırdık */
+    border-radius: 4px;
+    border: 4px solid; /* Çerçeveyi kalınlaştırdık */
+    border-top-color: #FFFFFF;
+    border-left-color: #FFFFFF;
+    border-bottom-color: #373737;
+    border-right-color: #373737;
+    display: inline-flex; /* İçeriğe göre daralsın */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.inventory-grid {
+    display: grid; 
+    grid-template-columns: repeat(9, 72px); /* 36px -> 72px */
+    grid-template-rows: repeat(3, 72px);    /* 36px -> 72px */
+    gap: 0; 
+}
+
+/* === SLOT TASARIMI === */
+.slot {
+    width: 72px; 
+    height: 72px; 
+    background-color: #8B8B8B;
+    border: 4px solid; /* Çerçeve kalınlığı arttı */
+    border-top-color: #373737;
+    border-left-color: #373737;
+    border-bottom-color: #FFFFFF;
+    border-right-color: #FFFFFF;
+    cursor: pointer; 
+    position: relative;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    image-rendering: pixelated;
+    transition: background-color 0.1s;
+
+.panel-top label {
+    margin-bottom: 8px;
+    display: block;
+    color: var(--text-main);
+}
+}
+
+.slot:hover { 
+    background-color: #AAAAAA; 
+}
+
+.slot.selected { 
+    background-color: #BDBDBD;
+    outline: 4px solid #FFFFFF; /* Outline kalınlaştı */
+    outline-offset: -4px;
+    z-index: 5;
+}
+
+/* İkonlar */
+.mc-item { 
+    width: 56px; /* Slotun içinde biraz nefes payı bıraktık */
+    height: 56px; 
+    image-rendering: pixelated;
+    pointer-events: none;
+    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.2)); /* Hafif derinlik gölgesi */
+}
+
+.slot.selected .mc-item {
+    transform: scale(1.1); /* Seçilince hafif büyüme efekti */
+}
+
+.mc-item.not-found {
+    opacity: 0.2;
+    filter: grayscale(100%);
+}
+
+/* === FORM ELEMANLARI === */
+.properties-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px; 
+}
+
+.form-group label, .panel-top label { 
+    font-size: 13px; 
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+input[type="text"], textarea { 
+    width: 100%; 
+    padding: 12px 14px; 
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 1px solid var(--border-color); 
+    border-radius: var(--radius-md);
+    font-size: 14px; 
+    outline: none; 
+    transition: all 0.2s ease;
+}
+
+/* Kod çıktısı ve Menü başlığı için Monospace font */
+.menu-title-input, textarea {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input[type="text"]:focus, textarea:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(85, 255, 85, 0.1);
+}
+
+input::placeholder, textarea::placeholder {
+    color: #475569;
+}
+
+textarea { 
+    resize: vertical; 
+    min-height: 100px; 
+}
+
+/* === BOŞ DURUM (EMPTY STATE) === */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.02);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--border-color);
+    margin-top: 10px;
+}
+
+.empty-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+/* === BUTON VE ÇIKTI === */
+.output-container { 
+    margin-top: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--border-focus); 
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    font-size: 15px; 
+    transition: all 0.2s;
+}
+
+.btn-primary:hover { 
+    background-color: #40cc40; 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(85, 255, 85, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+#json-output { 
+    background-color: var(--bg-input); 
+    color: #a6accd; /* Modern VS Code syntax rengi */
+    min-height: 160px; 
+    font-family: 'Consolas', 'Courier New', monospace; 
+    white-space: pre-wrap; 
+    border: 1px solid var(--border-color); 
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Özel Scrollbar (Kaydırma Çubuğu) */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-input); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* === MINECRAFT GAME-ACCURATE TOOLTIP & COLORS === */
+
+/* Ana Tooltip Konteyneri */
+.mc-tooltip {
+    position: fixed; /* Mouse'u takip etmesi için fixed */
+    z-index: 9999;
+    pointer-events: none; /* Mouse'un altında kalıp tıklamayı engellememeli */
+    padding: 8px 12px;
+    
+    /* Minecraft Tooltip Arka Planı (Yarı Saydam Siyah) */
+    background-color: rgba(16, 0, 16, 0.92);
+    
+    /* Minecraft Tooltip Mor/Siyah Çerçevesi */
+    border: 2px solid;
+    border-image-source: linear-gradient(to bottom, #2d0a63, #180533);
+    border-image-slice: 1;
+    
+    /* Pikselli font */
+    font-family: 'MinecraftTen', 'Courier New', Monospace;
+    font-size: 16px;
+    line-height: 1.4;
+    
+    /* Gölge efekti (Oyun içi gibi hafif drop shadow) */
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+    image-rendering: pixelated;
+}
+
+/* Eşya İsmi (Tooltip'in ilk satırı) */
+.mc-tooltip-name {
+    margin-bottom: 4px;
+    display: block;
+    white-space: nowrap;
+}
+
+/* Eşya Lore'u (Diğer satırlar) */
+.mc-tooltip-lore {
+    display: block;
+    color: #AAAAAA; /* Varsayılan Lore Rengi (Gri) */
+}
+
+/* Lore satırları arası boşluk */
+.mc-tooltip-lore span {
+    display: block;
+}
+
+/* === MINECRAFT RENK KODLARI CSS KARŞILIKLARI === */
+.mc-font { font-family: 'MinecraftTen', 'Courier New', Monospace; }
+
+/* Renkler (Standard) */
+.mcc-0 { color: #000000; } /* Siyah */
+.mcc-1 { color: #0000AA; } /* Koyu Mavi */
+.mcc-2 { color: #00AA00; } /* Koyu Yeşil */
+.mcc-3 { color: #00AAAA; } /* Koyu Turkuaz */
+.mcc-4 { color: #AA0000; } /* Koyu Kırmızı */
+.mcc-5 { color: #AA00AA; } /* Koyu Mor */
+.mcc-6 { color: #FFAA00; } /* Altın */
+.mcc-7 { color: #AAAAAA; } /* Gri */
+.mcc-8 { color: #555555; } /* Koyu Gri */
+.mcc-9 { color: #5555FF; } /* Mavi */
+.mcc-a { color: #55FF55; } /* Yeşil */
+.mcc-b { color: #55FFFF; } /* Turkuaz */
+.mcc-c { color: #FF5555; } /* Kırmızı */
+.mcc-d { color: #FF55FF; } /* Pembe */
+.mcc-e { color: #FFFF55; } /* Sarı */
+.mcc-f { color: #FFFFFF; } /* Beyaz */
+
+/* Formatlar */
+.mcc-l { font-weight: bold; }      /* Kalın */
+.mcc-o { font-style: italic; }     /* İtalik */
+.mcc-n { text-decoration: underline; } /* Altı Çizili */
+.mcc-m { text-decoration: line-through; } /* Üstü Çizili */
+/* Note: mcc-k (Sihirli/Obfuscated) için JS+CSS animasyonu gerekir, 
+   bu basit yapıda onu pas geçiyoruz veya sadece kalın yapıyoruz. */
+.mcc-k { font-weight: bold; opacity: 0.8; } 
+
+/* Reset (r) */
+.mcc-r { 
+    color: inherit; 
+    font-weight: normal; 
+    font-style: normal; 
+    text-decoration: none; 
+}
