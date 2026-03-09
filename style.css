@@ -1,368 +1,218 @@
-/* === MODERN UI DEĞİŞKENLERİ === */
 :root {
-    --bg-body: #0f1115;
+    --bg-main: #0f1115;
     --bg-panel: #1a1d24;
-    --bg-input: #0b0c0f;
-    --bg-slot: #22262f;
-    --bg-slot-hover: #2c313c;
-    
-    --border-color: #2e3340;
-    --border-focus: #55FF55; /* Minecraft Elmas Yeşili/Mavisi Vurgusu */
-    
+    --bg-slot: #2b2f3a;
+    --bg-slot-hover: #3a3f4c;
+    --border-color: #333845;
+    --border-focus: #d5d5d5;
     --text-main: #e2e8f0;
     --text-muted: #94a3b8;
-    
-    --radius-lg: 16px;
-    --radius-md: 8px;
-    --radius-sm: 4px;
-    
-    --shadow-panel: 0 10px 30px rgba(0,0,0,0.5);
-    --shadow-slot: inset 0 2px 4px rgba(0,0,0,0.3);
+    --radius-md: 6px;
+    --radius-lg: 10px;
+    --mc-slot-size: 64px;
 }
 
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* UI genelinde temiz, modern bir font kullanıyoruz */
 body {
-    background-color: var(--bg-body); 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-main);
     color: var(--text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    min-height: 100vh; 
-    padding: 20px;
-    /* Hafif arkadan vuran neon aydınlatma efekti */
-    background-image: radial-gradient(circle at 50% 0%, #1a2333 0%, var(--bg-body) 60%);
+    height: 100vh;
+    overflow: hidden; /* Sayfanın tamamı kaymasın, sadece iç paneller kaysın */
 }
 
-.app-wrapper {
+/* === UYGULAMA İSKELETİ === */
+.app-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    max-width: 1000px;
-    width: 100%;
+    height: 100vh;
 }
 
-.app-header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.app-header h1 span {
-    color: var(--border-focus);
-    font-size: 14px;
-    background: rgba(85, 255, 85, 0.1);
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-    vertical-align: middle;
-}
-
-.app-header p {
-    color: var(--text-muted);
-    font-size: 14px;
-}
-
-.app-container { 
-    display: flex; 
-    gap: 20px; 
-    align-items: stretch;
-}
-
-/* === PANEL TASARIMI === */
-.panel {
+/* === ÜST BAR === */
+.app-header {
+    height: 60px;
     background-color: var(--bg-panel);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: var(--shadow-panel);
-    display: flex;
-    flex-direction: column;
-}
-
-.left-panel { flex: 1; gap: 20px; }
-.right-panel { width: 380px; gap: 20px; }
-
-.panel-header h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-main);
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
-}
-
-/* === SOL PANEL (ENVANTER) === */
-.panel-top {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.panel-top label {
-    margin-bottom: 8px;
-    display: block;
-    color: var(--text-main);
-}
-
-.inventory-wrapper {
-    background-color: #C6C6C6; 
-    padding: 16px; /* İç boşluğu biraz artırdık */
-    border-radius: 4px;
-    border: 4px solid; /* Çerçeveyi kalınlaştırdık */
-    border-top-color: #FFFFFF;
-    border-left-color: #FFFFFF;
-    border-bottom-color: #373737;
-    border-right-color: #373737;
-    display: inline-flex; /* İçeriğe göre daralsın */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-}
-
-.inventory-grid {
-    display: grid; 
-    grid-template-columns: repeat(9, 72px); /* 36px -> 72px */
-    grid-template-rows: repeat(3, 72px);    /* 36px -> 72px */
-    gap: 0; 
-}
-
-/* === SLOT TASARIMI === */
-.slot {
-    width: 72px; 
-    height: 72px; 
-    background-color: #8B8B8B;
-    border: 4px solid; /* Çerçeve kalınlığı arttı */
-    border-top-color: #373737;
-    border-left-color: #373737;
-    border-bottom-color: #FFFFFF;
-    border-right-color: #FFFFFF;
-    cursor: pointer; 
-    position: relative;
-    display: flex; 
-    justify-content: center; 
+    justify-content: space-between;
     align-items: center;
-    image-rendering: pixelated;
-    transition: background-color 0.1s;
-
-.panel-top label {
-    margin-bottom: 8px;
-    display: block;
-    color: var(--text-main);
+    padding: 0 20px;
+    flex-shrink: 0;
 }
+.header-left { display: flex; align-items: center; gap: 30px; }
+.header-left h1 { font-size: 20px; margin: 0; }
+.header-left h1 span { color: var(--border-focus); }
+.menu-settings { display: flex; gap: 10px; }
+.menu-settings input, .menu-settings select {
+    background: var(--bg-main); border: 1px solid var(--border-color);
+    color: white; padding: 6px 12px; border-radius: var(--radius-md); font-size: 14px;
 }
-
-.slot:hover { 
-    background-color: #AAAAAA; 
-}
-
-.slot.selected { 
-    background-color: #BDBDBD;
-    outline: 4px solid #FFFFFF; /* Outline kalınlaştı */
-    outline-offset: -4px;
-    z-index: 5;
-}
-
-/* İkonlar */
-.mc-item { 
-    width: 56px; /* Slotun içinde biraz nefes payı bıraktık */
-    height: 56px; 
-    image-rendering: pixelated;
-    pointer-events: none;
-    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.2)); /* Hafif derinlik gölgesi */
-}
-
-.slot.selected .mc-item {
-    transform: scale(1.1); /* Seçilince hafif büyüme efekti */
-}
-
-.mc-item.not-found {
-    opacity: 0.2;
-    filter: grayscale(100%);
-}
-
-/* === FORM ELEMANLARI === */
-.properties-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.form-group { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 6px; 
-}
-
-.form-group label, .panel-top label { 
-    font-size: 13px; 
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
-input[type="text"], textarea { 
-    width: 100%; 
-    padding: 12px 14px; 
-    background-color: var(--bg-input);
-    color: var(--text-main);
-    border: 1px solid var(--border-color); 
-    border-radius: var(--radius-md);
-    font-size: 14px; 
-    outline: none; 
-    transition: all 0.2s ease;
-}
-
-/* Kod çıktısı ve Menü başlığı için Monospace font */
-.menu-title-input, textarea {
-    font-family: 'Courier New', Courier, monospace;
-}
-
-input[type="text"]:focus, textarea:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(85, 255, 85, 0.1);
-}
-
-input::placeholder, textarea::placeholder {
-    color: #475569;
-}
-
-textarea { 
-    resize: vertical; 
-    min-height: 100px; 
-}
-
-/* === BOŞ DURUM (EMPTY STATE) === */
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-muted);
-    background: rgba(255,255,255,0.02);
-    border-radius: var(--radius-md);
-    border: 1px dashed var(--border-color);
-    margin-top: 10px;
-}
-
-.empty-icon {
-    font-size: 32px;
-    margin-bottom: 10px;
-    opacity: 0.5;
-}
-
-/* === BUTON VE ÇIKTI === */
-.output-container { 
-    margin-top: auto; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 12px; 
-}
-
 .btn-primary {
+    background-color: var(--border-focus); color: #000;
+    border: none; padding: 8px 16px; border-radius: var(--radius-md);
+    font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(85,255,85,0.3); }
+
+/* === ORTA ALAN === */
+.main-workspace {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background-color: var(--border-focus); 
-    color: #000;
-    border: none;
-    border-radius: var(--radius-md);
-    padding: 12px; 
-    cursor: pointer; 
-    font-weight: 600; 
-    font-size: 15px; 
-    transition: all 0.2s;
+    flex: 1;
+    overflow: hidden;
 }
 
-.btn-primary:hover { 
-    background-color: #40cc40; 
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(85, 255, 85, 0.2);
+/* === SOL SÜTUN: ÖZELLİKLER FORMU === */
+.properties-panel { 
+    width: 320px; background: var(--bg-panel); border-right: 1px solid var(--border-color); 
+    padding: 20px; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
 }
-
-.btn-primary:active {
-    transform: translateY(0);
+.properties-panel h3 { margin-bottom: 15px; font-size: 16px; color: var(--border-focus); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;}
+.empty-state { text-align: center; color: var(--text-muted); padding: 20px; font-style: italic; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-muted); }
+.form-group input, .form-group textarea {
+    width: 100%; padding: 10px; background: var(--bg-main);
+    border: 1px solid var(--border-color); color: white;
+    border-radius: var(--radius-md); font-family: monospace; font-size: 14px;
 }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--border-focus); outline: none; }
 
-#json-output { 
-    background-color: var(--bg-input); 
-    color: #a6accd; /* Modern VS Code syntax rengi */
-    min-height: 160px; 
-    font-family: 'Consolas', 'Courier New', monospace; 
-    white-space: pre-wrap; 
+/* === ORTA ALAN: SANDIK SAHNESİ === */
+.chest-stage {
+    flex: 1; display: flex; justify-content: center; align-items: flex-start;
+    padding: 40px 20px; overflow-y: auto; background: var(--bg-main);
+}
+.chest-wrapper {
+    background: #c6c6c6; border: 4px solid #555;
+    border-radius: 4px; padding: 12px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    /* Sandık etrafında oyun içi o siyah ince çizgiyi vermek için */
+    outline: 2px solid #000;
+}
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(9, var(--mc-slot-size));
+    gap: 4px; /* Orijinal Minecraft'taki slot arası boşluk */
+}
+.slot {
+    width: var(--mc-slot-size); height: var(--mc-slot-size);
+    background-color: #8b8b8b; border: 4px solid;
+    border-top-color: #373737; border-left-color: #373737;
+    border-bottom-color: #ffffff; border-right-color: #ffffff;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; position: relative;
+}
+.slot.selected { 
+    border-color: var(--border-focus); 
+    background-color: #9b9b9b;
+    outline: 2px solid var(--border-focus); 
+    z-index: 2; 
+}
+.slot.drag-over { background-color: rgba(85,255,85,0.4); }
+.mc-item { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; pointer-events: none; }
+
+
+/* Sağ Alan: Sabit Menü */
+.item-sidebar {
+    width: 380px; /* 320px'den 380px'e çıkardık, daha ferah oldu */
+    background: var(--bg-panel); border-left: 1px solid var(--border-color);
+    display: flex; flex-direction: column; flex-shrink: 0;
+}
+.sidebar-header { padding: 15px; border-bottom: 1px solid var(--border-color); }
+.sidebar-header h3 { margin-bottom: 10px; font-size: 15px; }
+.sidebar-header input { width: 100%; padding: 8px; background: var(--bg-main); border: 1px solid var(--border-color); color: white; border-radius: var(--radius-md); }
+.sidebar-grid {
+    flex: 1; overflow-y: auto; padding: 15px;
+    /* Sabit 4 sütun yerine, minimum 70px olacak şekilde otomatik diz (Taşmayı önler) */
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; align-content: start;
+}
+.sidebar-item {
+    background: var(--bg-slot); 
     border: 1px solid var(--border-color); 
-    font-size: 13px;
-    line-height: 1.5;
+    border-radius: var(--radius-md);
+    padding: 8px 4px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    cursor: grab; 
+    transition: 0.1s; 
+    height: 75px;
 }
-
-/* Özel Scrollbar (Kaydırma Çubuğu) */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-input); border-radius: 4px; }
-::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #475569; }
-/* === GERÇEK MİNECRAFT FONTU === */
-@font-face {
-    font-family: 'MinecraftRegular';
-    src: url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/public/MinecraftRegular-Bmg3.woff2') format('woff2'),
-         url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/public/MinecraftRegular-Bmg3.woff') format('woff');
-    font-weight: bold;
-    font-style: bold;
+.sidebar-item:hover {
+    border-color: var(--border-focus);
+    background: var(--bg-slot-hover); 
 }
-
-/* === MINECRAFT GAME-ACCURATE TOOLTIP === */
-.mc-tooltip {
-    position: fixed;
-    z-index: 9999;
+.sidebar-item:active { 
+    cursor: grabbing;
+}
+.sidebar-item img { 
+    width: 32px; 
+    height: 32px; 
+    image-rendering: pixelated; 
+    pointer-events: none; 
+    margin-bottom: 4px;}
+.sidebar-item span { 
+    font-size: 10px; 
+    color: var(--text-muted); 
+    text-align: center; width: 100%; 
+    white-space: nowrap; overflow: hidden; 
+    text-overflow: ellipsis; 
+    font-family: monospace; 
     pointer-events: none;
-    padding: 10px;
-    background-color: rgba(16, 0, 16, 0.94);
-    border: 3px solid;
-    border-image-source: linear-gradient(to bottom, #3f1485, #21084f);
-    border-image-slice: 1;
-    font-family: 'MinecraftRegular', 'Courier New', monospace;
-    font-size: 16px;
-    line-height: 1.2;
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
-    image-rendering: pixelated;
-    
-    /* 1. YAZI NETLEŞTİRİCİ (Bulanıklığı ve soluklaşmayı önler) */
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: grayscale;
-    font-smooth: never;
-
-    /* 2. KESKİN KONTRAST GÖLGESİ (Gri yerine tam siyah gölge) */
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.75), 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+.sidebar-item.hidden { 
+    display: none; 
 }
 
-/* === EŞYA İSMİ (GÖLGESİZ SAF BEYAZ) === */
-.mc-tooltip-name {
-    margin-bottom: 6px;
-    display: block;
-    white-space: nowrap;
-    color: #FFFFFF !important; /* Tam Beyaz */
-    text-shadow: none !important; /* GÖLGE İPTAL */
-    font-weight: bold; /* Beyazın daha net çıkması için kalınlaştırdık */
-    opacity: 0.9;
+/* === ALT BAR (KAYITLI EŞYALAR) === */
+.saved-items-area {
+    height: 140px; background: var(--bg-panel); border-top: 1px solid var(--border-color);
+    padding: 10px 20px; display: flex; flex-direction: column; flex-shrink: 0;
 }
-
-/* === LORE (GÖLGESİZ SAF MOR) === */
-.mc-tooltip-lore {
-    display: block;
-    color: #AA00AA !important; 
-    font-style: italic; 
-    text-shadow: none !important; /* GÖLGE İPTAL */
+.saved-header { display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; }
+.saved-header h3 { font-size: 15px; color: #FFD700; margin: 0; }
+.saved-header small { color: var(--text-muted); font-size: 12px; }
+.saved-grid {
+    flex: 1; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;
 }
-
-.mc-tooltip-lore span {
-    display: block;
-    margin-bottom: 2px;
+.saved-slot {
+    width: 60px; height: 60px; background: var(--bg-main); border: 1px dashed var(--border-color);
+    border-radius: var(--radius-md); display: flex; justify-content: center; align-items: center;
+    cursor: pointer; flex-shrink: 0; transition: 0.2s;
 }
+.saved-slot:hover { border-color: #FFD700; background: rgba(255,215,0,0.1); }
 
-/* === MINECRAFT RENK PALETİ (SAF RENKLER - GÖLGE YOK) === */
+/* === JSON MODAL === */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(4px); }
+.json-modal-content { width: 80%; max-width: 700px; height: 70vh; background: var(--bg-panel); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); }
+.modal-header { padding: 15px 20px; background: #15181e; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+.btn-close { background: none; border: none; color: #ff5555; font-size: 24px; cursor: pointer; }
+#json-output { flex: 1; background: var(--bg-main); color: #55FF55; font-family: monospace; padding: 20px; border: none; resize: none; font-size: 14px; outline: none; }
+.modal-footer { padding: 15px; background: #15181e; border-top: 1px solid var(--border-color); text-align: right; }
+
+/* Özel Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #666; }
+
+/* === MINECRAFT GAME-ACCURATE TOOLTIP (DOKUNULMADI) === */
+@font-face {
+    font-family: 'MinecraftFont';
+    src: url('fonts/Blockblueprint-LV7z5.ttf') format('truetype');
+}
+.mc-tooltip {
+    position: fixed; z-index: 9999; pointer-events: none; padding: 10px; background-color: rgba(16, 0, 16, 0.94);
+    border: 3px solid; border-image-source: linear-gradient(to bottom, #3f1485, #21084f); border-image-slice: 1;
+    font-family: 'MinecraftFont', 'Courier New', monospace; font-size: 16px; line-height: 1.2;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.5); image-rendering: pixelated;
+}
+.mc-tooltip-name { margin-bottom: 6px; display: block; white-space: nowrap; color: #FFFFFF !important; text-shadow: none !important; font-weight: bold; }
+.mc-tooltip-lore { display: block; color: #AA00AA !important; font-style: italic; text-shadow: none !important; }
+.mc-tooltip-lore span { display: block; margin-bottom: 2px; }
+
+/* === MINECRAFT RENK PALETİ === */
 .mcc-0 { color: #000000 !important; text-shadow: none !important; } 
 .mcc-1 { color: #0000AA !important; text-shadow: none !important; } 
 .mcc-2 { color: #00AA00 !important; text-shadow: none !important; } 
@@ -379,72 +229,24 @@ textarea {
 .mcc-d { color: #FF55FF !important; text-shadow: none !important; } 
 .mcc-e { color: #FFFF55 !important; text-shadow: none !important; } 
 .mcc-f { color: #FFFFFF !important; text-shadow: none !important; } 
-
-/* Formatlar */
 .mcc-l { font-weight: bold; } 
 .mcc-o { font-style: italic; } 
 .mcc-n { text-decoration: underline; } 
 .mcc-m { text-decoration: line-through; } 
-.mcc-k { font-weight: bold; opacity: 0.8; } 
+.mcc-k { font-weight: bold; opacity: 1; }
 
-.mcc-r { 
-    color: inherit; 
-    font-weight: normal; 
-    font-style: normal; 
-    text-decoration: none; 
-}
+.saved-slot.drag-over-saved { border-color: #FFD700; background: rgba(255,215,0,0.2); }
 
-/* === EŞYA SEÇİCİ (MODAL) TASARIMI === */
-.input-with-button { display: flex; gap: 8px; }
-.input-with-button input { flex: 1; }
-.btn-icon { 
-    background: var(--bg-input); border: 1px solid var(--border-color); 
-    color: var(--text-main); border-radius: var(--radius-md); 
-    padding: 0 14px; cursor: pointer; transition: 0.2s; font-size: 16px;
+/* === EŞYA MİKTARI (AMOUNT BADGE) === */
+.item-amount-badge {
+    position: absolute;
+    bottom: -2px; /* Sayıyı tam köşeye oturttuk */
+    right: 2px;
+    color: #FFFFFF !important;
+    font-family: 'MinecraftFont'; /* Fontu kesinlikle zorla */
+    font-size: 24px !important; /* 16'dan 24'e çıkardık, devasa oldu! */
+    font-weight: normal !important; /* Tarayıcının fontu bozmasını/kalınlaştırmasını engelle */
+    text-shadow: 2px 2px 0px #3F3F3F !important; /* Oyun içi derinlik */
+    pointer-events: none;
+    z-index: 10;
 }
-.btn-icon:hover { border-color: var(--border-focus); background: rgba(85, 255, 85, 0.1); }
-
-.modal-overlay { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; 
-    z-index: 10000; backdrop-filter: blur(4px);
-}
-.modal-content { 
-    background: var(--bg-panel); border: 1px solid var(--border-color); 
-    border-radius: var(--radius-lg); width: 90%; max-width: 800px; height: 85vh; 
-    display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; 
-}
-.modal-header { 
-    padding: 16px 24px; border-bottom: 1px solid var(--border-color); 
-    display: flex; justify-content: space-between; align-items: center; background: #15181e;
-}
-.modal-header h3 { font-size: 18px; margin: 0; font-weight: 600; }
-.btn-close { 
-    background: none; border: none; color: var(--text-muted); 
-    font-size: 28px; cursor: pointer; transition: 0.2s; line-height: 1;
-}
-.btn-close:hover { color: #ff5555; transform: scale(1.1); }
-.modal-search { padding: 16px 24px; border-bottom: 1px solid var(--border-color); }
-.modal-grid { 
-    padding: 20px 24px; overflow-y: auto; display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); 
-    gap: 12px; flex: 1; align-content: start; 
-}
-
-/* Modal İçindeki İkonlar */
-.modal-item { 
-    background: var(--bg-slot); border: 1px solid var(--border-color); 
-    border-radius: var(--radius-md); padding: 10px 8px; cursor: pointer; 
-    display: flex; flex-direction: column; align-items: center; gap: 8px; 
-    transition: 0.15s; height: 90px; justify-content: flex-start;
-}
-.modal-item:hover { 
-    border-color: var(--border-focus); transform: translateY(-3px); 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); background: var(--bg-slot-hover);
-}
-.modal-item img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
-.modal-item span { 
-    font-size: 11px; color: var(--text-muted); text-align: center; 
-    width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: monospace;
-}
-.modal-item.hidden { display: none; }
